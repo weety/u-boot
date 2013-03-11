@@ -95,6 +95,18 @@
 #define CONFIG_CMD_PORTIO
 #define CONFIG_CMD_REGINFO
 #define CONFIG_CMD_SAVES
+#define CONFIG_CMD_PING
+
+/* autoboot */
+#define CONFIG_BOOTDELAY	3
+
+#define CONFIG_BOOTARGS		"noinitrd root=/dev/mtdblock2 init=/linuxrc console=ttySAC0"
+#define CONFIG_ETHADDR			0a:1b:2c:3d:4e:5f
+#define CONFIG_NETMASK			255.255.255.0
+#define CONFIG_IPADDR			192.168.1.6
+#define CONFIG_SERVERIP			192.168.1.120
+/*#define CONFIG_BOOTFILE		"elinos-lart" */
+#define CONFIG_BOOTCOMMAND		"nboot 0x32000000 0 0x50000; bootm 0x32000000"
 
 /*
  * Miscellaneous configurable options
