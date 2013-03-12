@@ -174,15 +174,22 @@
 #define CONFIG_SYS_MONITOR_BASE		0x0
 /* max number of memory banks */
 #define CONFIG_SYS_MAX_FLASH_BANKS	1
+#define CONFIG_AMD_29LV160DB
+#define PHYS_FLASH_SIZE		0x200000
 /* 512 * 4096 sectors, or 32 * 64k blocks */
-#define CONFIG_SYS_MAX_FLASH_SECT	512
+#define CONFIG_SYS_MAX_FLASH_SECT	35
 #define CONFIG_FLASH_SHOW_PROGRESS  1
+
+/* timeout values are in ticks */
+#define CONFIG_FLASH_ERASE_TOUT	(5*CONFIG_SYS_HZ) /* Timeout for Flash Erase */
+#define CONFIG_FLASH_WRITE_TOUT	(5*CONFIG_SYS_HZ) /* Timeout for Flash Write */
+
 
 /*
  * Config for NOR flash
  */
 #define CONFIG_ENV_IS_IN_FLASH
-#define CONFIG_MY_ENV_OFFSET	0x40000
+#define CONFIG_MY_ENV_OFFSET	0x80000
 /* addr of environment */
 #define CONFIG_ENV_ADDR		(CONFIG_SYS_FLASH_BASE + CONFIG_MY_ENV_OFFSET)
 /* 16k Total Size of Environment Sector */
