@@ -105,14 +105,13 @@
 #define CONFIG_NETMASK			255.255.255.0
 #define CONFIG_IPADDR			192.168.1.6
 #define CONFIG_SERVERIP			192.168.1.120
-/*#define CONFIG_BOOTFILE		"elinos-lart" */
 #define CONFIG_BOOTCOMMAND		"nboot 0x32000000 0 0x50000; bootm 0x32000000"
 
 /*
  * Miscellaneous configurable options
  */
 #define CONFIG_LONGHELP
-#define CONFIG_SYS_PROMPT	"TQ2440 # "
+#define CONFIG_SYS_PROMPT	"u-boot # "
 #define CONFIG_SYS_CBSIZE	256
 #define CONFIG_SYS_PBSIZE	(CONFIG_SYS_CBSIZE+sizeof(CONFIG_SYS_PROMPT)+16)
 #define CONFIG_SYS_MAXARGS	32
@@ -176,7 +175,7 @@
 #define CONFIG_SYS_MAX_FLASH_BANKS	1
 #define CONFIG_AMD_29LV160DB
 #define PHYS_FLASH_SIZE		0x200000
-/* 512 * 4096 sectors, or 32 * 64k blocks */
+/* 1x16K, 2x8k, 1x32k, 31x64k blocks */
 #define CONFIG_SYS_MAX_FLASH_SECT	35
 #define CONFIG_FLASH_SHOW_PROGRESS  1
 
@@ -189,11 +188,11 @@
  * Config for NOR flash
  */
 #define CONFIG_ENV_IS_IN_FLASH
-#define CONFIG_MY_ENV_OFFSET	0x80000
+#define CONFIG_MY_ENV_OFFSET	0x40000
 /* addr of environment */
 #define CONFIG_ENV_ADDR		(CONFIG_SYS_FLASH_BASE + CONFIG_MY_ENV_OFFSET)
-/* 16k Total Size of Environment Sector */
-#define CONFIG_ENV_SIZE		0x4000
+/* 64k Total Size of Environment Sector */
+#define CONFIG_ENV_SIZE		0x10000
 
 /* ATAG configuration */
 #define CONFIG_INITRD_TAG
