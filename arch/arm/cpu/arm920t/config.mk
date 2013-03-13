@@ -23,7 +23,7 @@
 
 PLATFORM_RELFLAGS += -fno-common -ffixed-r8 -msoft-float
 
-PLATFORM_CPPFLAGS += -march=armv4
+PLATFORM_CPPFLAGS += -march=armv4t
 # =========================================================================
 #
 # Supply options according to compiler version
