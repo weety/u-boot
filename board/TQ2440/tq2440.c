@@ -53,6 +53,7 @@ int board_early_init_f(void)
 {
 	struct s3c24x0_clock_power * const clk_power =
 					s3c24x0_get_base_clock_power();
+	struct s3c24x0_gpio * const gpio = s3c24x0_get_base_gpio();
 
 	/* to reduce PLL lock time, adjust the LOCKTIME register */
 	clk_power->locktime = 0xFFFFFF; /* Max PLL Lock time count */
@@ -69,16 +70,6 @@ int board_early_init_f(void)
 	/* some delay between MPLL and UPLL */
 	pll_delay(10000);
 
-	return 0;
-}
-
-/*
- * Miscellaneous platform dependent initialisations
- */
-int board_init(void)
-{
-	struct s3c24x0_gpio * const gpio = s3c24x0_get_base_gpio();
-
 	/* IOMUX Port H : UART Configuration */
 	gpio->gphcon = IOMUXH_nCTS0 | IOMUXH_nRTS0 | IOMUXH_TXD0 | IOMUXH_RXD0 |
 		IOMUXH_TXD1 | IOMUXH_RXD1 | IOMUXH_TXD2 | IOMUXH_RXD2;
@@ -87,6 +78,14 @@ int board_init(void)
 	gpio_direction_output(GPH9, 0);
 	gpio_direction_output(GPH10, 0);
 
+	return 0;
+}
+
+/*
+ * Miscellaneous platform dependent initialisations
+ */
+int board_init(void)
+{
 	/* adress of boot parameters */
 	gd->bd->bi_boot_params = CONFIG_BOOT_PARAM_ADDR;
 
