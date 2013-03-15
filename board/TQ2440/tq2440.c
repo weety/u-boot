@@ -49,6 +49,35 @@ static inline void pll_delay(unsigned long loops)
 	  "bne 1b" : "=r" (loops) : "0" (loops));
 }
 
+/* If HDIVN is not 0, the CPU bus mode has to be changed from 
+the fast bus mode to the asynchronousbus mode using following 
+instructions(S3C2440 does not support synchronous bus mode).
+If HDIVN is not 0 and the CPU bus mode is the fast bus mode, 
+the CPU will operate by the HCLK.This feature can be used to 
+change the CPU frequency as a half or more without affecting the 
+HCLKand PCLK. 
+Clock modes              iA      nF
+    ------------------------------------------
+    FastBus mode             0       0
+    Synchronous               0       1
+    Reserved                    1       0
+    Asynchronous             1       1 
+*/
+static inline void MMU_SetAsyncBusMode()
+{
+	__asm__ ("mrc p15,0,r0,c1,c0,0\n"
+       "orr r0,r0,#0xc0000000 /*R1_nF:OR:R1_iA*/\n"
+       "mcr p15,0,r0,c1,c0,0");
+}
+
+static inline void MMU_SetFastBusMode()
+{
+	__asm__ ("mrc p15,0,r0,c1,c0,0\n"
+       "bic r0,r0,#0xc0000000 /*R1_nF:OR:R1_iA*/\n"
+       "mcr p15,0,r0,c1,c0,0");
+}
+
+
 int board_early_init_f(void)
 {
 	struct s3c24x0_clock_power * const clk_power =
@@ -69,6 +98,12 @@ int board_early_init_f(void)
 
 	/* some delay between MPLL and UPLL */
 	pll_delay(10000);
+
+	if (clk_power->clkdivn & S3C2440_CLKDIVN_HDIVN_MASK) {
+		MMU_SetAsyncBusMode();
+	} else {
+		MMU_SetFastBusMode();
+	}
 
 	/* IOMUX Port H : UART Configuration */
 	gpio->gphcon = IOMUXH_nCTS0 | IOMUXH_nRTS0 | IOMUXH_TXD0 | IOMUXH_RXD0 |
