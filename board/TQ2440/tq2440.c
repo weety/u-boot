@@ -88,6 +88,12 @@ int board_early_init_f(void)
 	clk_power->locktime = 0xFFFFFF; /* Max PLL Lock time count */
 	clk_power->clkdivn = CLKDIVN_VAL;
 
+	if (clk_power->clkdivn & S3C2440_CLKDIVN_HDIVN_MASK) {
+		MMU_SetAsyncBusMode();
+	} else {
+		MMU_SetFastBusMode();
+	}
+
 	/* configure UPLL */
 	clk_power->upllcon = ((U_M_MDIV << 12) + (U_M_PDIV << 4) + U_M_SDIV);
 	/* some delay between MPLL and UPLL */
@@ -98,12 +104,6 @@ int board_early_init_f(void)
 
 	/* some delay between MPLL and UPLL */
 	pll_delay(10000);
-
-	if (clk_power->clkdivn & S3C2440_CLKDIVN_HDIVN_MASK) {
-		MMU_SetAsyncBusMode();
-	} else {
-		MMU_SetFastBusMode();
-	}
 
 	/* IOMUX Port H : UART Configuration */
 	gpio->gphcon = IOMUXH_nCTS0 | IOMUXH_nRTS0 | IOMUXH_TXD0 | IOMUXH_RXD0 |

@@ -171,24 +171,7 @@ copyex:
 	ldr r0, =INTSUBMSK
 	str r1, [r0]
 #endif
-#if defined(CONFIG_S3C2440)
-#define MPLLCON 0x4c000004
-#define UPLLCON 0x4c000008
-	/* FCLK:HCLK:PCLK = 1:4:8 */
-	ldr r0, =CLKDIVN
-	mov r1, #5
-	str r1, [r0]
-
-	/* sys clock 405MHz */
-	ldr r0, =MPLLCON
-	ldr r1, =0x7f021
-	str r1, [r0]
-
-	/* usb clock 48MHz */
-	ldr r0, =UPLLCON
-	ldr r1, =0x38022
-	str r1, [r0]
-#else
+#if 0
 	/* FCLK:HCLK:PCLK = 1:2:4 */
 	/* default FCLK is 120 MHz ! */
 	ldr	r0, =CLKDIVN
