@@ -367,7 +367,7 @@ static int dm9000_init(struct eth_device *dev, bd_t *bd)
 	DM9000_iow(DM9000_RCR, RCR_DIS_LONG | RCR_DIS_CRC | RCR_RXEN);
 	/* Enable TX/RX interrupt mask */
 	DM9000_iow(DM9000_IMR, IMR_PAR);
-#if 0
+
 	i = 0;
 	while (!(dm9000_phy_read(1) & 0x20)) {	/* autonegation complete bit */
 		udelay(1000);
@@ -377,7 +377,7 @@ static int dm9000_init(struct eth_device *dev, bd_t *bd)
 			return 0;
 		}
 	}
-#endif
+
 	/* see what we've got */
 	lnk = dm9000_phy_read(17) >> 12;
 	printf("operating at ");
@@ -597,7 +597,7 @@ dm9000_phy_read(int reg)
 	/* Fill the phyxcer register into REG_0C */
 	DM9000_iow(DM9000_EPAR, DM9000_PHY | reg);
 	DM9000_iow(DM9000_EPCR, 0xc);	/* Issue phyxcer read command */
-	udelay(1000);	//100		/* Wait read complete */
+	udelay(100);			/* Wait read complete */
 	DM9000_iow(DM9000_EPCR, 0x0);	/* Clear phyxcer read command */
 	val = (DM9000_ior(DM9000_EPDRH) << 8) | DM9000_ior(DM9000_EPDRL);
 

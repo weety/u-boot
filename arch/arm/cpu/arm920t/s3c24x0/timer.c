@@ -49,7 +49,7 @@ int timer_init(void)
 		/*
 		 * for 10 ms clock period @ PCLK with 4 bit divider = 1/2
 		 * (default) and prescaler = 16. Should be 10390
-		 * @33.25MHz and 15625 @ 50 MHz
+		 * @33.25MHz and 15625 @ 50 MHz, 21093.75 @ 67.5MHz
 		 */
 		gd->tbu = get_PCLK() / (2 * 16 * 100);
 		gd->timer_rate_hz = get_PCLK() / (2 * 16);
@@ -81,8 +81,12 @@ void __udelay (unsigned long usec)
 	ulong tmo;
 	ulong start = get_ticks();
 
-	tmo = usec / 1000;
-	tmo *= (gd->tbu * 100);
+	if (usec > 1000) {
+		tmo = usec / 1000;
+		tmo *= (gd->tbu * 100);
+	} else {
+		tmo = usec * gd->tbu / 10;
+	}
 	tmo /= 1000;
 
 	while ((ulong) (get_ticks() - start) < tmo)
